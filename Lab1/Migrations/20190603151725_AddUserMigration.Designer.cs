@@ -10,8 +10,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace Lab1.Migrations
 {
     [DbContext(typeof(IntroDbContext))]
-    [Migration("20190524104828_ChangedReleaseYear")]
-    partial class ChangedReleaseYear
+    [Migration("20190603151725_AddUserMigration")]
+    partial class AddUserMigration
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -29,7 +29,7 @@ namespace Lab1.Migrations
 
                     b.Property<bool>("Important");
 
-                    b.Property<int?>("MovieId");
+                    b.Property<int>("MovieId");
 
                     b.Property<string>("Text");
 
@@ -37,7 +37,7 @@ namespace Lab1.Migrations
 
                     b.HasIndex("MovieId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comment");
                 });
 
             modelBuilder.Entity("Lab1.Models.Movie", b =>
@@ -70,11 +70,33 @@ namespace Lab1.Migrations
                     b.ToTable("Movies");
                 });
 
+            modelBuilder.Entity("Lab1.Models.User", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
+
+                    b.Property<string>("Email");
+
+                    b.Property<string>("FirstName");
+
+                    b.Property<string>("LastName");
+
+                    b.Property<string>("Password");
+
+                    b.Property<string>("Username");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Users");
+                });
+
             modelBuilder.Entity("Lab1.Models.Comment", b =>
                 {
                     b.HasOne("Lab1.Models.Movie")
-                        .WithMany("Comments")
-                        .HasForeignKey("MovieId");
+                        .WithMany("Comment")
+                        .HasForeignKey("MovieId")
+                        .OnDelete(DeleteBehavior.Cascade);
                 });
 #pragma warning restore 612, 618
         }

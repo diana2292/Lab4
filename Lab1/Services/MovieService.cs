@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
@@ -81,7 +81,9 @@ namespace Lab1.Services
 
         public Movie Delete(int id)
         {
-            Movie movie = DbContext.Movies.Include(c => c.Comment).FirstOrDefault(c => c.Id == id);
+            Movie movie = DbContext.Movies
+           .Include(c => c.Comment)
+           .FirstOrDefault(c => c.Id == id);
             if (movie == null)
             {
                 return null;
